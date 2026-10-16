@@ -75,4 +75,13 @@ router.post('/readCustomerInfoAndRespond', function(req, res, next) {
 
 });
 
+router.post('/api/customer', function(req,res){
+const name = req.body.name;
+const email = req.body.email;
+res.json({
+message: "Welcome " + name,
+email: email
+});
+})
+
 module.exports = router;

@@ -13,12 +13,14 @@
 <br/>
 <form action="/readCustomerInfoAndRespond" method="post">
 
-  Name: <input type="text" name="name"> </input>
+  Name: <input type="text" name="name" id="name"> </input>
   <br/>
-  Email: <input type="text" name="email"> </input>
+  Email: <input type="text" name="email" id="email"> </input>
   <br/>
-  <input type="submit" value="Go"/>
+  <input type="submit" id="submitBtn" value="Go"/>
 </form>
+
+<span id="result"></span>
 
 <br><br><br>
 <hr>
@@ -42,7 +44,25 @@
   <input type="submit" value="Go"/>
 </form>
 
-
+<!-- Because this is an line script, we have to put it at the end of the HTML file to wait until the document is loaded-->
+<script>
+    document.getElementById("submitBtn").addEventListener("click", async (event) => {
+      event.preventDefault();
+const response = await fetch("/api/customer",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({
+name: document.getElementById("name").value,
+email: document.getElementById("email").value
+})
+});
+const data = await response.json();
+document.getElementById("result").innerHTML =
+data.message + "<br>" + data.email;
+});
+  </script>
 
 </body>
 </html>
